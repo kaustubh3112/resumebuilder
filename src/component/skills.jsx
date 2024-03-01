@@ -5,9 +5,8 @@ const Skills = () => {
   const [selected, setSelected] = useState([]);
 
   const onSaveChanges = () => {
-    const mySkills = localStorage.setItem("Skills", JSON.stringify(selected));
-
-    setSelected(mySkills);
+    setSelected(selected);
+    localStorage.setItem("Skills", JSON.stringify(selected));
   };
 
   return (

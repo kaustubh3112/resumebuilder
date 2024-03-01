@@ -1,30 +1,25 @@
 import React, { useEffect, useState } from "react";
 
 const Experience = () => {
-  const [expData, setExpData] = useState({
+  const [formData, setFormData] = useState({
     company: "",
     location: "",
     joiningDate: "",
     resigningDate: "",
     description: "",
   });
-  const [allExpData, setAllExpData] = useState([]);
+  const [expData, setExpData] = useState([]);
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
-    setExpData((prev) => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const expFormHandler = (e) => {
-    e.preventDefault();
-    setAllExpData((prev) => [...prev, { ...expData }]);
-  };
-
-  const addExperience = () => {
-    setExpData({
+  const resetExperience = () => {
+    setFormData({
       company: "",
       location: "",
       joiningDate: "",
@@ -33,22 +28,30 @@ const Experience = () => {
     });
   };
 
+  const expFormHandler = (e) => {
+    e.preventDefault();
+    setExpData((prev) => [...prev, formData]);
+    resetExperience();
+  };
+
   useEffect(() => {
-    localStorage.setItem("experienceData", JSON.stringify(allExpData));
-  }, [allExpData]);
+    const storedData = localStorage.getItem("ExperienceData");
+    if (storedData) {
+      setExpData(JSON.parse(storedData));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (expData.length > 0) {
+      localStorage.setItem("ExperienceData", JSON.stringify(expData));
+    }
+  }, [expData]);
 
   return (
     <>
       <form className="w-full mb-5" onSubmit={expFormHandler} noValidate>
         <h4 className="text-white text-lg mb-3 flex items-center justify-between">
-          Experience :{" "}
-          <button
-            className="border border-gray-500 rounded-md text-white text-sm px-2 py-2 hover:bg-gray-500 bg-gray-500 min-w-28"
-            type="button"
-            onClick={addExperience}
-          >
-            Add Experience
-          </button>{" "}
+          Experience :
         </h4>
         <div className="mb-5">
           <input
@@ -57,7 +60,7 @@ const Experience = () => {
             type="text"
             className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
             onChange={inputHandler}
-            value={expData.company}
+            value={formData.company}
           />
         </div>
         <div className="mb-5">
@@ -67,7 +70,7 @@ const Experience = () => {
             type="text"
             className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
             onChange={inputHandler}
-            value={expData.location}
+            value={formData.location}
           />
         </div>
         <div className="mb-5">
@@ -77,7 +80,7 @@ const Experience = () => {
             type="text"
             className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
             onChange={inputHandler}
-            value={expData.joiningDate}
+            value={formData.joiningDate}
           />
         </div>
         <div className="mb-5">
@@ -87,7 +90,7 @@ const Experience = () => {
             type="text"
             className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
             onChange={inputHandler}
-            value={expData.resigningDate}
+            value={formData.resigningDate}
           />
         </div>
         <div className="mb-5">
@@ -97,7 +100,7 @@ const Experience = () => {
             rows={5}
             type="text"
             onChange={inputHandler}
-            value={expData.description}
+            value={formData.description}
             className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
           />
         </div>
@@ -108,23 +111,16 @@ const Experience = () => {
           >
             Save
           </button>
-          {/* You can remove this 'Next' button if not needed */}
-          <button className="border border-gray-500 rounded-md text-white text-md px-4 py-2 hover:bg-gray-500 bg-gray-500 min-w-28">
+
+          <button
+            type="button"
+            className="border border-gray-500 rounded-md text-white text-md px-4 py-2 hover:bg-gray-500 bg-gray-500 min-w-28"
+            onClick={() => {}}
+          >
             Next
           </button>
         </div>
       </form>
-
-      {/* Render all experience data */}
-      {allExpData.map((exp, index) => (
-        <div key={index}>
-          <p className="text-white">{exp.company}</p>
-          <p className="text-white">{exp.location}</p>
-          <p className="text-white">{exp.joiningDate}</p>
-          <p className="text-white">{exp.resigningDate}</p>
-          <p className="text-white">{exp.description}</p>
-        </div>
-      ))}
     </>
   );
 };

@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 const Preview = () => {
-  const [allexperiences, setAllexperiences] = useState([{}, {}, {}, {}]);
-  const [skillsPreview, setSkillsPreview] = useState({});
+  // const [allexperiences, setAllexperiences] = useState([{}]);
+  // const [skillsPreview, setSkillsPreview] = useState({});
 
-  useEffect(() => {
-    const skillsInfoString = localStorage.getItem("Skills");
-    setSkillsPreview(skillsInfoString);
-  }, []);
-
-  console.log("skillsInfo", skillsPreview);
+  // useEffect(() => {
+  //   const skillsInfoString = localStorage.getItem("Skills");
+  //   setSkillsPreview(skillsInfoString);
+  // }, []);
 
   return (
     <div className="p-10">

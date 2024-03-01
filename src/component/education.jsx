@@ -16,14 +16,32 @@ const Education = () => {
     }));
   };
 
+  const resetEducation = () => {
+    setEducation({
+      college: "",
+      passingyear: "",
+      university: "",
+    });
+  };
+
   const educationFormHandler = (e) => {
     e.preventDefault();
-    setAllEducation((prev) => [...prev, { ...education }]);
+    setAllEducation((prev) => [...prev, education]);
+    resetEducation();
   };
 
   useEffect(() => {
-    localStorage.setItem("education", JSON.stringify({ allEducation }));
+    const storedData = localStorage.getItem("Education");
+    if (storedData) {
+      setExpData(JSON.parse(storedData));
+    }
   }, [allEducation]);
+
+  useEffect(() => {
+    if (education.length > 0) {
+      localStorage.setItem("Education", JSON.stringify(education));
+    }
+  }, [education]);
 
   return (
     <>
@@ -36,13 +54,6 @@ const Education = () => {
           passingyear={education.passingyear}
           university={education.university}
         />
-
-        <button
-          className="border mb-5 border-blue-500 rounded-md text-white text-md px-4 py-2 hover:bg-blue-500 bg-blue-500 min-w-28 mr-5"
-          type="submit"
-        >
-          Add Education{" "}
-        </button>
 
         <div className="w-full">
           <button

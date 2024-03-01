@@ -30,7 +30,7 @@ export const PersonalInfoProvider = (props) => {
     "PersonalInfo",
     JSON.stringify({ personalInfo })
   );
-  console.log(data);
+  // console.log(data);
 
   return (
     <PersonalInfoContext.Provider

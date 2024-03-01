@@ -1,15 +1,29 @@
-import React from "react";
-import { usePersonalInfo } from "../context/perosnalinfo";
+import React, { useState } from "react";
 
 const Personalinfo = ({}) => {
-  const useContext = usePersonalInfo();
+  const [personalInfo, setPersonalInfo] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    bio: "",
+  });
+
+  const inputHandler = (e) => {
+    const { name, value } = e.target;
+    setPersonalInfo((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const dataHandler = (e) => {
+    e.preventDefault();
+    localStorage.setItem("PersonalInfo", JSON.stringify(personalInfo));
+  };
+
   return (
     <>
-      <form
-        className="w-full mb-5"
-        onSubmit={useContext.dataHandler}
-        noValidate
-      >
+      <form className="w-full mb-5" onSubmit={dataHandler} noValidate>
         <h4 className="text-white text-lg mb-3">Personal Details : </h4>
         <div className="mb-5">
           <input
@@ -17,8 +31,8 @@ const Personalinfo = ({}) => {
             placeholder="Name"
             type="text"
             className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
-            value={useContext.personalInfo.name}
-            onChange={useContext.inputHandler}
+            value={personalInfo.name}
+            onChange={inputHandler}
           />
         </div>
         <div className="mb-5">
@@ -27,8 +41,8 @@ const Personalinfo = ({}) => {
             placeholder="Email"
             type="email"
             className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
-            value={useContext.personalInfo.emai}
-            onChange={useContext.inputHandler}
+            value={personalInfo.emai}
+            onChange={inputHandler}
           />
         </div>
         <div className="mb-5">
@@ -37,8 +51,8 @@ const Personalinfo = ({}) => {
             placeholder="Phone Number"
             type="text"
             className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
-            value={useContext.personalInfo.phone}
-            onChange={useContext.inputHandler}
+            value={personalInfo.phone}
+            onChange={inputHandler}
           />
         </div>
         <div className="mb-5">
@@ -48,8 +62,8 @@ const Personalinfo = ({}) => {
             rows={5}
             type="text"
             className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
-            value={useContext.personalInfo.bio}
-            onChange={useContext.inputHandler}
+            value={personalInfo.bio}
+            onChange={inputHandler}
           />
         </div>
         <div className="w-full">

@@ -70,9 +70,7 @@ function App({}) {
           {activetab === "education" ? <Education /> : ""}
         </div>
       </div>
-      <div className="basis-2/3">
-        <Preview />
-      </div>
+      <div className="basis-2/3">{/* <Preview /> */}</div>
     </div>
   );
 }
