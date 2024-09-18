@@ -25,8 +25,12 @@ export const PersonalInfoProvider = (props) => {
 
   const dataHandler = (e) => {
     e.preventDefault();
-    localStorage.setItem("PersonalInfo", JSON.stringify({ personalInfo }));
   };
+  let data = localStorage.setItem(
+    "PersonalInfo",
+    JSON.stringify({ personalInfo })
+  );
+  console.log(data);
 
   return (
     <PersonalInfoContext.Provider

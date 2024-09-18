@@ -21,6 +21,9 @@ const Experience = () => {
   const expFormHandler = (e) => {
     e.preventDefault();
     setAllExpData((prev) => [...prev, { ...expData }]);
+  };
+
+  const addExperience = () => {
     setExpData({
       company: "",
       location: "",
@@ -42,7 +45,7 @@ const Experience = () => {
           <button
             className="border border-gray-500 rounded-md text-white text-sm px-2 py-2 hover:bg-gray-500 bg-gray-500 min-w-28"
             type="button"
-            onClick={expFormHandler}
+            onClick={addExperience}
           >
             Add Experience
           </button>{" "}

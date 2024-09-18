@@ -3,7 +3,6 @@ import { usePersonalInfo } from "../context/perosnalinfo";
 
 const Personalinfo = ({}) => {
   const useContext = usePersonalInfo();
-  console.log(useContext);
   return (
     <>
       <form

@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const Education = () => {
-  const usePersonalInfo = usePersonalInfo();
-
   const [education, setEducation] = useState({
     college: "",
     passingyear: "",
     university: "",
   });
+
+  const [allEducation, setAllEducation] = useState([]);
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -18,8 +18,12 @@ const Education = () => {
 
   const educationFormHandler = (e) => {
     e.preventDefault();
-    localStorage.setItem("education", JSON.stringify({ ...education }));
+    setAllEducation((prev) => [...prev, { ...education }]);
   };
+
+  useEffect(() => {
+    localStorage.setItem("education", JSON.stringify({ allEducation }));
+  }, [allEducation]);
 
   return (
     <>
