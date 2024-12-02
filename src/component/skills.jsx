@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { TagsInput } from "react-tag-input-component";
+import { setDataToLocalStorage } from "../API/Services";
 
 const Skills = () => {
   const [selected, setSelected] = useState([]);
 
   const onSaveChanges = () => {
     setSelected(selected);
-    localStorage.setItem("Skills", JSON.stringify(selected));
+    setDataToLocalStorage("Skills", selected);
   };
 
   return (

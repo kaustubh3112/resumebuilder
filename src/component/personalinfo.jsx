@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { setDataToLocalStorage } from "../API/Services";
 
 const Personalinfo = ({}) => {
   const [personalInfo, setPersonalInfo] = useState({
@@ -18,7 +19,7 @@ const Personalinfo = ({}) => {
 
   const dataHandler = (e) => {
     e.preventDefault();
-    localStorage.setItem("PersonalInfo", JSON.stringify(personalInfo));
+    setDataToLocalStorage("PersonalInfo", personalInfo);
   };
 
   return (

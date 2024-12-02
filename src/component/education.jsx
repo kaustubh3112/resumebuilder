@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 const Education = () => {
   const [education, setEducation] = useState({
     college: "",
@@ -31,28 +32,29 @@ const Education = () => {
   };
 
   useEffect(() => {
-    const storedData = localStorage.getItem("Education");
+    const storedData = localStorage.getItem("storedEducation");
     if (storedData) {
-      setExpData(JSON.parse(storedData));
+      setAllEducation(JSON.parse(storedData));
     }
-  }, [allEducation]);
+  }, []);
 
   useEffect(() => {
-    if (education.length > 0) {
-      localStorage.setItem("Education", JSON.stringify(education));
+    if (allEducation.length > 0) {
+      localStorage.setItem("storedEducation", JSON.stringify(allEducation));
     }
-  }, [education]);
+  }, [allEducation]);
 
   return (
     <>
       <form className="w-full mb-5" onSubmit={educationFormHandler} noValidate>
         <h4 className="text-white text-lg mb-3">Education : </h4>
 
-        <Educationfrom
+        <EducationForm
           inputHandler={inputHandler}
           college={education.college}
           passingyear={education.passingyear}
           university={education.university}
+          degree={education.degree}
         />
 
         <div className="w-full">
@@ -73,7 +75,13 @@ const Education = () => {
 
 export default Education;
 
-const Educationfrom = ({ inputHandler, college, passingyear, university }) => {
+const EducationForm = ({
+  inputHandler,
+  college,
+  passingyear,
+  university,
+  degree,
+}) => {
   return (
     <>
       <div className="mb-5">
@@ -89,8 +97,19 @@ const Educationfrom = ({ inputHandler, college, passingyear, university }) => {
 
       <div className="mb-5">
         <input
+          name="degree"
+          placeholder="Degree"
+          type="text"
+          className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
+          onChange={inputHandler}
+          value={degree}
+        />
+      </div>
+
+      <div className="mb-5">
+        <input
           name="passingyear"
-          placeholder="Passing year"
+          placeholder="Passing Year"
           type="text"
           className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
           onChange={inputHandler}

@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
+import {
+  getDataFromLocalStorage,
+  setDataToLocalStorage,
+} from "../API/Services";
 
 const Experience = () => {
   const [formData, setFormData] = useState({
     company: "",
+    designation: "",
     location: "",
     joiningDate: "",
     resigningDate: "",
@@ -21,6 +26,7 @@ const Experience = () => {
   const resetExperience = () => {
     setFormData({
       company: "",
+      designation: "",
       location: "",
       joiningDate: "",
       resigningDate: "",
@@ -35,15 +41,15 @@ const Experience = () => {
   };
 
   useEffect(() => {
-    const storedData = localStorage.getItem("ExperienceData");
+    const storedData = getDataFromLocalStorage("Experience");
     if (storedData) {
-      setExpData(JSON.parse(storedData));
+      setExpData(storedData);
     }
   }, []);
 
   useEffect(() => {
     if (expData.length > 0) {
-      localStorage.setItem("ExperienceData", JSON.stringify(expData));
+      setDataToLocalStorage("Experience", expData);
     }
   }, [expData]);
 
@@ -61,6 +67,16 @@ const Experience = () => {
             className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
             onChange={inputHandler}
             value={formData.company}
+          />
+        </div>
+        <div className="mb-5">
+          <input
+            name="designation"
+            placeholder="Designation"
+            type="text"
+            className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
+            onChange={inputHandler}
+            value={formData.designation}
           />
         </div>
         <div className="mb-5">

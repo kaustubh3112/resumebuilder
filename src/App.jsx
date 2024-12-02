@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Personalinfo from "./component/personalinfo";
 import Experinece from "./component/experinece";
 import Education from "./component/education";
 import Skills from "./component/skills";
 import Preview from "./component/preview";
+import classNames from "classnames";
 
 function App({}) {
   const [activetab, setActivetab] = useState("personalinfo");
-
   const stepHandler = (item) => {
     setActivetab(item);
   };
@@ -28,7 +28,12 @@ function App({}) {
                     ? setActivetab("personalinfo")
                     : ""
                 }
-                className="border border-red-500 rounded-md text-white text-md px-4 py-2 hover:bg-red-500 bg-red-500"
+                className={classNames(
+                  "border  rounded-md text-white text-md px-4 py-2 hover:bg-red-500",
+                  activetab === "personalinfo"
+                    ? "bg-red-500 border-red-500"
+                    : ""
+                )}
               >
                 Personal Information
               </button>
@@ -38,7 +43,10 @@ function App({}) {
                 onClick={() =>
                   stepHandler("skills") ? setActivetab("skills") : ""
                 }
-                className="border border-white hover:border-red-500 rounded-md text-white text-md px-4 py-2 hover:bg-red-500"
+                className={classNames(
+                  "border  rounded-md text-white text-md px-4 py-2 hover:bg-red-500",
+                  activetab === "skills" ? "bg-red-500 border-red-500" : ""
+                )}
               >
                 Skills
               </button>
@@ -48,7 +56,10 @@ function App({}) {
                 onClick={() =>
                   stepHandler("experience") ? setActivetab("experience") : ""
                 }
-                className="border border-white hover:border-red-500 rounded-md text-white text-md px-4 py-2 hover:bg-red-500"
+                className={classNames(
+                  "border  rounded-md text-white text-md px-4 py-2 hover:bg-red-500",
+                  activetab === "experience" ? "bg-red-500 border-red-500" : ""
+                )}
               >
                 Experience
               </button>
@@ -58,7 +69,10 @@ function App({}) {
                 onClick={() =>
                   stepHandler("education") ? setActivetab("education") : ""
                 }
-                className="border border-white hover:border-red-500 rounded-md text-white text-md px-4 py-2 hover:bg-red-500"
+                className={classNames(
+                  "border  rounded-md text-white text-md px-4 py-2 hover:bg-red-500",
+                  activetab === "education" ? "bg-red-500 border-red-500" : ""
+                )}
               >
                 Education
               </button>
@@ -70,7 +84,9 @@ function App({}) {
           {activetab === "education" ? <Education /> : ""}
         </div>
       </div>
-      <div className="basis-2/3">{/* <Preview /> */}</div>
+      <div className="basis-2/3">
+        <Preview />
+      </div>
     </div>
   );
 }
