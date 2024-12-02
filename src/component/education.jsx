@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const Education = () => {
+const Education = ({ stepHandler }) => {
   const [education, setEducation] = useState({
     college: "",
     passingyear: "",

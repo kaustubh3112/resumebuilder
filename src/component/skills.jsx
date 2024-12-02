@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TagsInput } from "react-tag-input-component";
 import { setDataToLocalStorage } from "../API/Services";
 
-const Skills = () => {
+const Skills = ({ stepHandler }) => {
   const [selected, setSelected] = useState([]);
 
   const onSaveChanges = () => {
@@ -26,7 +26,10 @@ const Skills = () => {
         >
           Save
         </button>
-        <button className="border border-gray-500 rounded-md text-white text-md px-4 py-2 hover:bg-gray-500 bg-gray-500 min-w-28">
+        <button
+          onClick={() => stepHandler("experience")}
+          className="border border-gray-500 rounded-md text-white text-md px-4 py-2 hover:bg-gray-500 bg-gray-500 min-w-28"
+        >
           Next
         </button>
       </div>

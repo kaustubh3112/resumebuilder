@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { setDataToLocalStorage } from "../API/Services";
 
-const Personalinfo = ({}) => {
+const Personalinfo = ({ stepHandler }) => {
   const [personalInfo, setPersonalInfo] = useState({
     name: "",
     email: "",
@@ -74,7 +74,10 @@ const Personalinfo = ({}) => {
           >
             Save
           </button>
-          <button className="border border-gray-500 rounded-md text-white text-md px-4 py-2 hover:bg-gray-500 bg-gray-500 min-w-28">
+          <button
+            onClick={() => stepHandler("skills")}
+            className="border border-gray-500 rounded-md text-white text-md px-4 py-2 hover:bg-gray-500 bg-gray-500 min-w-28"
+          >
             Next
           </button>
         </div>

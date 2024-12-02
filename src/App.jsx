@@ -35,7 +35,7 @@ function App({}) {
                     : ""
                 )}
               >
-                Personal Information
+                Personal
               </button>
             </li>
             <li className="mr-3">
@@ -78,10 +78,22 @@ function App({}) {
               </button>
             </li>
           </ul>
-          {activetab === "personalinfo" ? <Personalinfo /> : ""}
-          {activetab === "skills" ? <Skills /> : ""}
-          {activetab === "experience" ? <Experinece /> : ""}
-          {activetab === "education" ? <Education /> : ""}
+          {activetab === "personalinfo" ? (
+            <Personalinfo stepHandler={stepHandler} />
+          ) : (
+            ""
+          )}
+          {activetab === "skills" ? <Skills stepHandler={stepHandler} /> : ""}
+          {activetab === "experience" ? (
+            <Experinece stepHandler={stepHandler} />
+          ) : (
+            ""
+          )}
+          {activetab === "education" ? (
+            <Education stepHandler={stepHandler} />
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className="basis-2/3">

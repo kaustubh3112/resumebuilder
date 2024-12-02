@@ -27,97 +27,95 @@ const Preview = () => {
   }, []);
 
   return (
-    <div className="p-10">
-      <div className="border border-slate-400 max-w-[800px] mx-auto">
+    <div className="p-5">
+      <div className="border border-slate-400 max-w-[800px] mx-auto min-h-[1200px]">
         <div ref={targetRef} className="w-full  p-10 max-w-[800px] mx-auto">
-          <div>
-            <h2 className="font-bold mb-3 text-2xl text-black">
-              {previewPersonalInfo.name}
-            </h2>
-            <h6 className="text-slate-700 text-md">
-              <span className="font-medium">Email:</span>{" "}
-              {previewPersonalInfo.email}
-            </h6>
-            <h6 className="text-slate-700 text-md">
-              <span className="font-medium">Mobile:</span>{" "}
-              {previewPersonalInfo.phone}
-            </h6>
-            <h3 className="text-blue-700 text-md font-semibold mt-2 mb-2">
-              Summary
-            </h3>
-            <p className="text-slate-700 text-sm mt-2 mb-5">
-              {previewPersonalInfo.bio}
-            </p>
-          </div>
-          <div className="mb-5">
-            <h3 className="text-blue-700 text-md font-semibold mt-2 mb-2">
-              Technical Skills
-            </h3>
-            <ul className="flex items-center flex-wrap">
-              {previewSkills.length > 0
-                ? previewSkills.map((skill, index) => (
-                    <li
-                      key={index}
-                      className="text-sm text-slate-700 font-medium mr-2"
-                    >
-                      {skill} ,
-                    </li>
-                  ))
-                : ""}
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-blue-700 text-md font-semibold mt-2 mb-2">
-              Professional Experience
-            </h3>
-            <ul>
-              {previewExperience.length > 0
-                ? previewExperience.map((company, index) => (
-                    <li key={index}>
-                      <h4>
-                        <span className="font-medium">{company.company}</span>,{" "}
-                        <span className="font-medium">{company.location}</span>{" "}
-                        |{" "}
-                        <span className="font-medium">
-                          {company.designation}
-                        </span>
-                      </h4>
-                      <h6 className="font-medium text-sm mt-1">
-                        {company.joiningDate} - {company.resigningDate}
-                      </h6>
-                      <p className="text-slate-700 text-sm mt-1 mb-5">
-                        {company.description}
-                      </p>
-                    </li>
-                  ))
-                : ""}
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-blue-700 text-md font-semibold mt-2 mb-2">
-              Education
-            </h3>
-            <ul>
-              {previewEducation.length > 0
-                ? previewEducation.map((education, index) => (
-                    <li key={index}>
-                      <h4>
-                        <span className="font-medium">{education.college}</span>
-                        |{" "}
-                        <span className="font-medium">{education.degree}</span>|{" "}
-                        <span className="font-medium">
-                          {education.passingyear}
-                        </span>
-                        |{" "}
-                        <span className="font-medium">
-                          {education.university}
-                        </span>{" "}
-                      </h4>
-                    </li>
-                  ))
-                : ""}
-            </ul>
-          </div>
+          {Object.keys(previewPersonalInfo).length > 0 && (
+            <div>
+              <h2 className="font-bold mb-3 text-2xl text-black">
+                {previewPersonalInfo.name}
+              </h2>
+              <h6 className="text-slate-700 text-md">
+                <span className="font-medium">Email:</span>{" "}
+                {previewPersonalInfo.email}
+              </h6>
+              <h6 className="text-slate-700 text-md">
+                <span className="font-medium">Mobile:</span>{" "}
+                {previewPersonalInfo.phone}
+              </h6>
+              <h3 className="text-blue-700 text-md font-semibold mt-2 mb-2">
+                Summary
+              </h3>
+              <p className="text-slate-700 text-sm mt-2 mb-5">
+                {previewPersonalInfo.bio}
+              </p>
+            </div>
+          )}
+          {previewSkills.length > 0 && (
+            <div className="mb-5">
+              <h3 className="text-blue-700 text-md font-semibold mt-2 mb-2">
+                Technical Skills
+              </h3>
+              <ul className="flex items-center flex-wrap">
+                {previewSkills.map((skill, index) => (
+                  <li
+                    key={index}
+                    className="text-sm text-slate-700 font-medium mr-2"
+                  >
+                    {skill} ,
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {previewExperience.length > 0 && (
+            <div>
+              <h3 className="text-blue-700 text-md font-semibold mt-2 mb-2">
+                Professional Experience
+              </h3>
+              <ul>
+                {previewExperience.map((company, index) => (
+                  <li key={index}>
+                    <h4>
+                      <span className="font-medium">{company.company}</span>,{" "}
+                      <span className="font-medium">{company.location}</span> |{" "}
+                      <span className="font-medium">{company.designation}</span>
+                    </h4>
+                    <h6 className="font-medium text-sm mt-1">
+                      {company.joiningDate} - {company.resigningDate}
+                    </h6>
+                    <p className="text-slate-700 text-sm mt-1 mb-5">
+                      {company.description}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {previewEducation.length > 0 && (
+            <div>
+              <h3 className="text-blue-700 text-md font-semibold mt-2 mb-2">
+                Education
+              </h3>
+              <ul>
+                {previewEducation.map((education, index) => (
+                  <li key={index}>
+                    <h4>
+                      <span className="font-medium">{education.college}</span>|{" "}
+                      <span className="font-medium">{education.degree}</span>|{" "}
+                      <span className="font-medium">
+                        {education.passingyear}
+                      </span>
+                      |{" "}
+                      <span className="font-medium">
+                        {education.university}
+                      </span>{" "}
+                    </h4>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
       <div className="text-center mt-3">
