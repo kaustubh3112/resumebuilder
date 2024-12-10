@@ -1,106 +1,33 @@
-import { useEffect, useState } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import Personalinfo from "./component/personalinfo";
-import Experinece from "./component/experinece";
-import Education from "./component/education";
-import Skills from "./component/skills";
-import Preview from "./component/preview";
-import classNames from "classnames";
+import Layout from "./component/layout";
+import Login from "./pages/login";
+import Home from "./pages/home";
+import PrivateRoute from "./component/PrivateRoute";
 
-function App({}) {
-  const [activetab, setActivetab] = useState("personalinfo");
-  const stepHandler = (item) => {
-    setActivetab(item);
-  };
+function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "/",
+          element: <Login />,
+        },
+        {
+          path: "/home",
+          element: (
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          ),
+        },
+      ],
+    },
+  ]);
 
-  return (
-    <div className="flex h-full min-h-screen overflow-auto">
-      <div className="basis-1/3 bg-black">
-        <div className="p-10">
-          <h1 className="text-white font-semibold text-2xl border-b border-b-slate-300 mb-5 pb-3">
-            Resume Builder
-          </h1>
-          <ul className="flex w-full py-5 mb-5">
-            <li className="mr-3">
-              <button
-                onClick={() =>
-                  stepHandler("personalinfo")
-                    ? setActivetab("personalinfo")
-                    : ""
-                }
-                className={classNames(
-                  "border  rounded-md text-white text-md px-4 py-2 hover:bg-red-500",
-                  activetab === "personalinfo"
-                    ? "bg-red-500 border-red-500"
-                    : ""
-                )}
-              >
-                Personal
-              </button>
-            </li>
-            <li className="mr-3">
-              <button
-                onClick={() =>
-                  stepHandler("skills") ? setActivetab("skills") : ""
-                }
-                className={classNames(
-                  "border  rounded-md text-white text-md px-4 py-2 hover:bg-red-500",
-                  activetab === "skills" ? "bg-red-500 border-red-500" : ""
-                )}
-              >
-                Skills
-              </button>
-            </li>
-            <li className="mr-3">
-              <button
-                onClick={() =>
-                  stepHandler("experience") ? setActivetab("experience") : ""
-                }
-                className={classNames(
-                  "border  rounded-md text-white text-md px-4 py-2 hover:bg-red-500",
-                  activetab === "experience" ? "bg-red-500 border-red-500" : ""
-                )}
-              >
-                Experience
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() =>
-                  stepHandler("education") ? setActivetab("education") : ""
-                }
-                className={classNames(
-                  "border  rounded-md text-white text-md px-4 py-2 hover:bg-red-500",
-                  activetab === "education" ? "bg-red-500 border-red-500" : ""
-                )}
-              >
-                Education
-              </button>
-            </li>
-          </ul>
-          {activetab === "personalinfo" ? (
-            <Personalinfo stepHandler={stepHandler} />
-          ) : (
-            ""
-          )}
-          {activetab === "skills" ? <Skills stepHandler={stepHandler} /> : ""}
-          {activetab === "experience" ? (
-            <Experinece stepHandler={stepHandler} />
-          ) : (
-            ""
-          )}
-          {activetab === "education" ? (
-            <Education stepHandler={stepHandler} />
-          ) : (
-            ""
-          )}
-        </div>
-      </div>
-      <div className="basis-2/3">
-        <Preview />
-      </div>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

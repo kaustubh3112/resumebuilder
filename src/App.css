@@ -20,22 +20,40 @@
   gap: var(--rti-s);
   line-height: 1.4;
   padding: var(--rti-s);
-  margin-bottom: 20px;
 }
 .rti--container {
   padding: 12px 15px !important;
 }
 .rti--input {
   background-color: transparent !important;
-  color: #ffffff !important;
+  color: #cbd5e1 !important;
 }
 .rti--input::placeholder {
   color: #cbd5e1 !important;
 }
 .rti--tag {
-  color: #ffffff !important;
+  color: #cbd5e1 !important;
   background: rgba(255, 255, 255, 0.2) !important;
   font-size: 14px !important;
   padding: 7px 10px !important;
   line-height: 14px !important;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+.react-datepicker-wrapper input[type="text"] {
+  width: 100%;
+  padding: 13px 45px 13px 15px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background-color: transparent;
+  color: #cbd5e1;
+}
+.react-datepicker-wrapper svg.react-datepicker__calendar-icon {
+  position: absolute;
+  right: 2px;
+  top: 8px;
+  fill: #cbd5e1;
+  cursor: pointer;
 }

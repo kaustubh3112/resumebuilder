@@ -3,9 +3,25 @@ import {
   getDataFromLocalStorage,
   setDataToLocalStorage,
 } from "../API/Services";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const Experience = ({ stepHandler }) => {
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [formData, setFormData] = useState({
+    company: "",
+    designation: "",
+    location: "",
+    joiningDate: startDate.toLocaleDateString(),
+    resigningDate: endDate.toLocaleDateString(),
+    description: "",
+  });
+
+  const [expData, setExpData] = useState([]);
+
+  const [error, setError] = useState({
     company: "",
     designation: "",
     location: "",
@@ -13,13 +29,17 @@ const Experience = ({ stepHandler }) => {
     resigningDate: "",
     description: "",
   });
-  const [expData, setExpData] = useState([]);
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+
+    setError((prevError) => ({
+      ...prevError,
+      [name]: "",
     }));
   };
 
@@ -28,16 +48,53 @@ const Experience = ({ stepHandler }) => {
       company: "",
       designation: "",
       location: "",
-      joiningDate: "",
-      resigningDate: "",
+      joiningDate: new Date(),
+      resigningDate: new Date(),
       description: "",
     });
+  };
+
+  const validate = () => {
+    let isValid = true;
+    const newErrors = {};
+
+    if (!formData.company.trim()) {
+      newErrors.company = "This field is required.";
+      isValid = false;
+    }
+
+    if (!formData.designation.trim()) {
+      newErrors.designation = "This field is required.";
+      isValid = false;
+    }
+    if (!formData.location.trim()) {
+      newErrors.location = "This field is required.";
+      isValid = false;
+    }
+
+    // if (!formData.joiningDate.trim()) {
+    //   newErrors.joiningDate = "This field is required.";
+    //   isValid = false;
+    // }
+
+    // if (!formData.resigningDate.trim()) {
+    //   newErrors.resigningDate = "This field is required.";
+    //   isValid = false;
+    // }
+
+    if (!formData.description.trim()) {
+      newErrors.description = "This field is required.";
+      isValid = false;
+    }
+
+    setError(newErrors);
   };
 
   const expFormHandler = (e) => {
     e.preventDefault();
     setExpData((prev) => [...prev, formData]);
     resetExperience();
+    toast("Experience Details Saved Successfully!");
   };
 
   useEffect(() => {
@@ -68,6 +125,11 @@ const Experience = ({ stepHandler }) => {
             onChange={inputHandler}
             value={formData.company}
           />
+          {error.company && (
+            <small className="text-sm inline-block text-red-400">
+              {error.company}
+            </small>
+          )}
         </div>
         <div className="mb-5">
           <input
@@ -78,6 +140,11 @@ const Experience = ({ stepHandler }) => {
             onChange={inputHandler}
             value={formData.designation}
           />
+          {error.designation && (
+            <small className="text-sm inline-block text-red-400">
+              {error.designation}
+            </small>
+          )}
         </div>
         <div className="mb-5">
           <input
@@ -88,26 +155,41 @@ const Experience = ({ stepHandler }) => {
             onChange={inputHandler}
             value={formData.location}
           />
+          {error.location && (
+            <small className="text-sm inline-block text-red-400">
+              {error.location}
+            </small>
+          )}
         </div>
         <div className="mb-5">
-          <input
-            name="joiningDate"
-            placeholder="Joining Date"
-            type="text"
-            className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
-            onChange={inputHandler}
-            value={formData.joiningDate}
+          <DatePicker
+            dateFormat="yyyy/MM/dd"
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            showIcon
+            toggleCalendarOnIconClick
+            popperPlacement="top-end"
           />
+          {error.startDate && (
+            <small className="text-sm inline-block text-red-400">
+              {error.startDate}
+            </small>
+          )}
         </div>
         <div className="mb-5">
-          <input
-            name="resigningDate"
-            placeholder="Resignation Date"
-            type="text"
-            className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
-            onChange={inputHandler}
-            value={formData.resigningDate}
+          <DatePicker
+            dateFormat="yyyy/MM/dd"
+            selected={endDate}
+            onChange={(date) => setEndDate(date)}
+            showIcon
+            toggleCalendarOnIconClick
+            popperPlacement="top-end"
           />
+          {error.endDate && (
+            <small className="text-sm inline-block text-red-400">
+              {error.endDate}
+            </small>
+          )}
         </div>
         <div className="mb-5">
           <textarea
@@ -119,6 +201,11 @@ const Experience = ({ stepHandler }) => {
             value={formData.description}
             className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
           />
+          {error.description && (
+            <small className="text-sm inline-block text-red-400">
+              {error.description}
+            </small>
+          )}
         </div>
         <div className="w-full">
           <button
@@ -130,12 +217,13 @@ const Experience = ({ stepHandler }) => {
 
           <button
             type="button"
-            className="border border-gray-500 rounded-md text-white text-md px-4 py-2 hover:bg-gray-500 bg-gray-500 min-w-28"
+            className="border border-red-500 rounded-md text-white text-md px-4 py-2 hover:bg-red-500 bg-red-500 min-w-28"
             onClick={() => stepHandler("education")}
           >
             Next
           </button>
         </div>
+        <ToastContainer />
       </form>
     </>
   );

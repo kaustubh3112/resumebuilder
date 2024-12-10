@@ -1,10 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { FormContext } from "../context/FormContext";
+import { ToastContainer, toast } from "react-toastify";
 
-const Education = ({ stepHandler }) => {
+const Education = () => {
+  const formDetails = useContext(FormContext);
+
   const [education, setEducation] = useState({
     college: "",
     passingyear: "",
     university: "",
+    degree: "",
   });
 
   const [allEducation, setAllEducation] = useState([]);
@@ -22,6 +27,7 @@ const Education = ({ stepHandler }) => {
       college: "",
       passingyear: "",
       university: "",
+      degree: "",
     });
   };
 
@@ -29,6 +35,9 @@ const Education = ({ stepHandler }) => {
     e.preventDefault();
     setAllEducation((prev) => [...prev, education]);
     resetEducation();
+    toast(
+      "All details have been saved successfully! Your resume is now ready for download"
+    );
   };
 
   useEffect(() => {
@@ -64,10 +73,14 @@ const Education = ({ stepHandler }) => {
           >
             Save
           </button>
-          <button className="border border-gray-500 rounded-md text-white text-md px-4 py-2 hover:bg-gray-500 bg-gray-500 min-w-28">
-            Next
+          <button
+            onClick={() => formDetails.formSubmit()}
+            className="border border-red-500 rounded-md text-white text-md px-4 py-2 hover:bg-red-500 bg-red-500 min-w-28"
+          >
+            Submit
           </button>
         </div>
+        <ToastContainer />
       </form>
     </>
   );

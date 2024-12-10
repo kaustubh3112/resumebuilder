@@ -1,63 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { usePDF } from "react-to-pdf";
+import { FormContext } from "../context/FormContext";
 
 const Preview = () => {
-  const [previewPersonalInfo, setPreviewPersonalInfo] = useState({});
-  const [previewSkills, setPreviewSkills] = useState([]);
-  const [previewEducation, setPreviewEducation] = useState([]);
-  const [previewExperience, setPreviewExperience] = useState([]);
-  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
-
-  const getAllData = () => {
-    const storedPI = localStorage.getItem("PersonalInfo");
-    setPreviewPersonalInfo(storedPI ? JSON.parse(storedPI) : {});
-
-    const storedSkills = localStorage.getItem("Skills");
-    setPreviewSkills(storedSkills ? JSON.parse(storedSkills) : []);
-
-    const storedEducation = localStorage.getItem("storedEducation");
-    setPreviewEducation(storedEducation ? JSON.parse(storedEducation) : []);
-
-    const storedExperience = localStorage.getItem("Experience");
-    setPreviewExperience(storedExperience ? JSON.parse(storedExperience) : []);
-  };
+  const formData = useContext(FormContext);
+  const { toPDF, targetRef } = usePDF({
+    filename: `CV - ${formData.previewPersonalInfo.name}`,
+  });
 
   useEffect(() => {
-    getAllData();
+    formData.formSubmit();
   }, []);
 
   return (
     <div className="p-5">
       <div className="border border-slate-400 max-w-[800px] mx-auto min-h-[1200px]">
         <div ref={targetRef} className="w-full  p-10 max-w-[800px] mx-auto">
-          {Object.keys(previewPersonalInfo).length > 0 && (
+          {Object.keys(formData.previewPersonalInfo).length > 0 && (
             <div>
               <h2 className="font-bold mb-3 text-2xl text-black">
-                {previewPersonalInfo.name}
+                {formData.previewPersonalInfo.name} - (
+                {formData.previewPersonalInfo.designation})
               </h2>
               <h6 className="text-slate-700 text-md">
                 <span className="font-medium">Email:</span>{" "}
-                {previewPersonalInfo.email}
+                {formData.previewPersonalInfo.email}
               </h6>
               <h6 className="text-slate-700 text-md">
                 <span className="font-medium">Mobile:</span>{" "}
-                {previewPersonalInfo.phone}
+                {formData.previewPersonalInfo.phone}
+              </h6>
+              <h6 className="text-slate-700 text-md">
+                <span className="font-medium">LinkedIn Profile:</span>{" "}
+                {formData.previewPersonalInfo.socialMediaProfile}
               </h6>
               <h3 className="text-blue-700 text-md font-semibold mt-2 mb-2">
                 Summary
               </h3>
               <p className="text-slate-700 text-sm mt-2 mb-5">
-                {previewPersonalInfo.bio}
+                {formData.previewPersonalInfo.bio}
               </p>
             </div>
           )}
-          {previewSkills.length > 0 && (
+          {formData.previewSkills.length > 0 && (
             <div className="mb-5">
               <h3 className="text-blue-700 text-md font-semibold mt-2 mb-2">
                 Technical Skills
               </h3>
               <ul className="flex items-center flex-wrap">
-                {previewSkills.map((skill, index) => (
+                {formData.previewSkills.map((skill, index) => (
                   <li
                     key={index}
                     className="text-sm text-slate-700 font-medium mr-2"
@@ -68,13 +59,13 @@ const Preview = () => {
               </ul>
             </div>
           )}
-          {previewExperience.length > 0 && (
+          {formData.previewExperience.length > 0 && (
             <div>
               <h3 className="text-blue-700 text-md font-semibold mt-2 mb-2">
                 Professional Experience
               </h3>
               <ul>
-                {previewExperience.map((company, index) => (
+                {formData.previewExperience.map((company, index) => (
                   <li key={index}>
                     <h4>
                       <span className="font-medium">{company.company}</span>,{" "}
@@ -92,13 +83,13 @@ const Preview = () => {
               </ul>
             </div>
           )}
-          {previewEducation.length > 0 && (
+          {formData.previewEducation.length > 0 && (
             <div>
               <h3 className="text-blue-700 text-md font-semibold mt-2 mb-2">
                 Education
               </h3>
               <ul>
-                {previewEducation.map((education, index) => (
+                {formData.previewEducation.map((education, index) => (
                   <li key={index}>
                     <h4>
                       <span className="font-medium">{education.college}</span>|{" "}
