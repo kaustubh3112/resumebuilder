@@ -27,22 +27,11 @@ const Personalinfo = ({ stepHandler }) => {
     }));
   };
 
-  const formReset = () => {
-    setPersonalInfo({
-      name: "",
-      email: "",
-      phone: "",
-      bio: "",
-      designation: "",
-      socialMediaProfile: "",
-    });
-  };
-
-  // Validation
   const validate = () => {
     const newErrors = {};
     let isValid = true;
-
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let phoneRegex = /^\d{10}$/;
     if (!personalInfo.name.trim()) {
       newErrors.name = "This field is required.";
       isValid = false;
@@ -51,20 +40,26 @@ const Personalinfo = ({ stepHandler }) => {
     if (!personalInfo.email.trim()) {
       newErrors.email = "This field is required.";
       isValid = false;
+    } else if (!emailRegex.test(personalInfo.email)) {
+      newErrors.email = "Invalid email format.";
+      isValid = false;
     }
 
     if (!personalInfo.phone.trim()) {
       newErrors.phone = "This field is required.";
       isValid = false;
-    }
-
-    if (!personalInfo.bio.trim()) {
-      newErrors.bio = "This field is required.";
+    } else if (!phoneRegex.test(personalInfo.phone)) {
+      newErrors.phone = "Invalid Phone format. Max 10 digits are allow";
       isValid = false;
     }
 
     if (!personalInfo.designation.trim()) {
       newErrors.designation = "This field is required.";
+      isValid = false;
+    }
+
+    if (!personalInfo.bio.trim()) {
+      newErrors.bio = "This field is required.";
       isValid = false;
     }
 
@@ -75,12 +70,11 @@ const Personalinfo = ({ stepHandler }) => {
   // Data Handler
   const dataHandler = (e) => {
     e.preventDefault();
-
     if (validate()) {
       setDataToLocalStorage("PersonalInfo", personalInfo);
-      // alert("Personal Information Saved Successfully!");
-      toast("Personal Information Saved Successfully!");
-      formReset();
+      toast.success("Personal Information Saved Successfully!");
+    } else {
+      toast.error("Please correct the errors in the form.");
     }
   };
 
@@ -118,9 +112,10 @@ const Personalinfo = ({ stepHandler }) => {
             name="phone"
             placeholder="Phone Number*"
             type="text"
-            className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
+            className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md appearance-none focus:appearance-none"
             value={personalInfo.phone}
             onChange={inputHandler}
+            maxLength="10"
           />
           {error.phone && <small className="text-red-400">{error.phone}</small>}
         </div>
@@ -158,6 +153,7 @@ const Personalinfo = ({ stepHandler }) => {
             className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
             value={personalInfo.bio}
             onChange={inputHandler}
+            maxLength="480"
           />
           {error.bio && <small className="text-red-400">{error.bio}</small>}
         </div>
@@ -178,7 +174,7 @@ const Personalinfo = ({ stepHandler }) => {
             Next
           </button>
         </div>
-        <ToastContainer />
+        <ToastContainer position="top-center" />
       </form>
     </>
   );

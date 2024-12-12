@@ -8,13 +8,9 @@ const Preview = () => {
     filename: `CV - ${formData.previewPersonalInfo.name}`,
   });
 
-  useEffect(() => {
-    formData.formSubmit();
-  }, []);
-
   return (
     <div className="p-5">
-      <div className="border border-slate-400 max-w-[800px] mx-auto min-h-[1200px]">
+      <div className="border border-slate-400 max-w-[800px] mx-auto min-h-[1200px] bg-white">
         <div ref={targetRef} className="w-full  p-10 max-w-[800px] mx-auto">
           {Object.keys(formData.previewPersonalInfo).length > 0 && (
             <div>

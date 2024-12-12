@@ -3,9 +3,9 @@ import {
   getDataFromLocalStorage,
   setDataToLocalStorage,
 } from "../API/Services";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ToastContainer, toast } from "react-toastify";
+import CustomDatePicker from "./CustomDatePicker";
 
 const Experience = ({ stepHandler }) => {
   const [startDate, setStartDate] = useState(new Date());
@@ -20,15 +20,7 @@ const Experience = ({ stepHandler }) => {
   });
 
   const [expData, setExpData] = useState([]);
-
-  const [error, setError] = useState({
-    company: "",
-    designation: "",
-    location: "",
-    joiningDate: "",
-    resigningDate: "",
-    description: "",
-  });
+  const [error, setError] = useState({});
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -43,7 +35,8 @@ const Experience = ({ stepHandler }) => {
     }));
   };
 
-  const resetExperience = () => {
+  const AddNewFields = (e) => {
+    e.preventDefault();
     setFormData({
       company: "",
       designation: "",
@@ -52,11 +45,13 @@ const Experience = ({ stepHandler }) => {
       resigningDate: new Date(),
       description: "",
     });
+    setStartDate(new Date());
+    setEndDate(new Date());
   };
 
   const validate = () => {
-    let isValid = true;
     const newErrors = {};
+    let isValid = true;
 
     if (!formData.company.trim()) {
       newErrors.company = "This field is required.";
@@ -67,34 +62,36 @@ const Experience = ({ stepHandler }) => {
       newErrors.designation = "This field is required.";
       isValid = false;
     }
+
     if (!formData.location.trim()) {
       newErrors.location = "This field is required.";
       isValid = false;
     }
-
-    // if (!formData.joiningDate.trim()) {
-    //   newErrors.joiningDate = "This field is required.";
-    //   isValid = false;
-    // }
-
-    // if (!formData.resigningDate.trim()) {
-    //   newErrors.resigningDate = "This field is required.";
-    //   isValid = false;
-    // }
 
     if (!formData.description.trim()) {
       newErrors.description = "This field is required.";
       isValid = false;
     }
 
+    if (startDate >= endDate) {
+      newErrors.startDate = "Start date must be earlier than end date.";
+      newErrors.endDate = "End date must be later than start date.";
+      isValid = false;
+    }
+
     setError(newErrors);
+    return isValid;
   };
 
   const expFormHandler = (e) => {
     e.preventDefault();
-    setExpData((prev) => [...prev, formData]);
-    resetExperience();
-    toast("Experience Details Saved Successfully!");
+
+    if (validate()) {
+      setExpData((prev) => [...prev, formData]);
+      toast.success("Experience Details Saved Successfully!");
+    } else {
+      toast.error("Please correct the errors in the form.");
+    }
   };
 
   useEffect(() => {
@@ -113,9 +110,18 @@ const Experience = ({ stepHandler }) => {
   return (
     <>
       <form className="w-full mb-5" onSubmit={expFormHandler} noValidate>
-        <h4 className="text-white text-lg mb-3 flex items-center justify-between">
-          Experience :
-        </h4>
+        <div className="flex items-center justify-between gap-5 mb-3">
+          <h4 className="text-white text-lg  flex items-center justify-between">
+            Experience :
+          </h4>
+          <button
+            type="button"
+            className="text-white px-2 py-1.5 rounded-md text-sm bg-white/20"
+            onClick={AddNewFields}
+          >
+            Add New
+          </button>
+        </div>
         <div className="mb-5">
           <input
             name="company"
@@ -162,13 +168,10 @@ const Experience = ({ stepHandler }) => {
           )}
         </div>
         <div className="mb-5">
-          <DatePicker
-            dateFormat="yyyy/MM/dd"
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-            showIcon
-            toggleCalendarOnIconClick
-            popperPlacement="top-end"
+          <CustomDatePicker
+            selectedDate={startDate}
+            onChange={setStartDate}
+            minDate={new Date(1990, 0, 1)}
           />
           {error.startDate && (
             <small className="text-sm inline-block text-red-400">
@@ -177,13 +180,10 @@ const Experience = ({ stepHandler }) => {
           )}
         </div>
         <div className="mb-5">
-          <DatePicker
-            dateFormat="yyyy/MM/dd"
-            selected={endDate}
-            onChange={(date) => setEndDate(date)}
-            showIcon
-            toggleCalendarOnIconClick
-            popperPlacement="top-end"
+          <CustomDatePicker
+            selectedDate={endDate}
+            onChange={setEndDate}
+            minDate={startDate}
           />
           {error.endDate && (
             <small className="text-sm inline-block text-red-400">
@@ -200,6 +200,7 @@ const Experience = ({ stepHandler }) => {
             onChange={inputHandler}
             value={formData.description}
             className="bg-transparent text-white border border-slate-300 px-5 py-3 w-full rounded-md"
+            maxLength={480}
           />
           {error.description && (
             <small className="text-sm inline-block text-red-400">
@@ -223,7 +224,7 @@ const Experience = ({ stepHandler }) => {
             Next
           </button>
         </div>
-        <ToastContainer />
+        <ToastContainer position="top-center" />
       </form>
     </>
   );

@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
+import { toast } from "react-toastify";
 
 export const FormContext = createContext(null);
 
@@ -7,6 +8,7 @@ export const FormProvider = (props) => {
   const [previewSkills, setPreviewSkills] = useState([]);
   const [previewEducation, setPreviewEducation] = useState([]);
   const [previewExperience, setPreviewExperience] = useState([]);
+  const [showPreview, setshowPreview] = useState(false);
 
   const formSubmit = () => {
     const storedPI = localStorage.getItem("PersonalInfo");
@@ -30,6 +32,8 @@ export const FormProvider = (props) => {
         previewSkills,
         previewEducation,
         previewExperience,
+        showPreview,
+        setshowPreview,
       }}
     >
       {props.children}

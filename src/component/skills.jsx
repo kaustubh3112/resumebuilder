@@ -11,10 +11,11 @@ const Skills = ({ stepHandler }) => {
     setSelected(selected);
     if (selected.length === 0) {
       setError(true);
+      toast.error("Please enter the skills");
     } else {
       setError(false);
       setDataToLocalStorage("Skills", selected);
-      toast("Skills Saved Successfully!");
+      toast.success("Skills Saved Successfully!");
     }
   };
 
@@ -48,7 +49,7 @@ const Skills = ({ stepHandler }) => {
           Next
         </button>
       </div>
-      <ToastContainer />
+      <ToastContainer position="top-center" />
     </div>
   );
 };

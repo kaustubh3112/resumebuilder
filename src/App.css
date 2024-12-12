@@ -27,6 +27,7 @@
 .rti--input {
   background-color: transparent !important;
   color: #cbd5e1 !important;
+  width: 100% !important;
 }
 .rti--input::placeholder {
   color: #cbd5e1 !important;
@@ -56,4 +57,17 @@
   top: 8px;
   fill: #cbd5e1;
   cursor: pointer;
+}
+.react-datepicker {
+  font-family: inherit;
+  font-size: 12px;
+  background-color: #ffffff;
+  color: #000;
+  border-radius: 6px;
+  display: inline-block;
+  position: relative;
+  line-height: initial;
+}
+.react-datepicker__header {
+  padding: 0 !important;
 }

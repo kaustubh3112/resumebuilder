@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-
+import { useContext, useEffect, useState } from "react";
 import Experinece from "../component/experinece";
 import Education from "../component/education";
 import Skills from "../component/skills";
@@ -7,10 +6,31 @@ import Preview from "../component/preview";
 import classNames from "classnames";
 import Personalinfo from "../component/personalinfo";
 import { useNavigate } from "react-router-dom";
-import Profile from "./profile";
 import "react-toastify/dist/ReactToastify.css";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { TfiAngleDown } from "react-icons/tfi";
+import { FormContext } from "../context/FormContext";
+import axios from "axios";
 
 const Home = () => {
+  const [user, setUser] = useState({});
+  const formData = useContext(FormContext);
+  console.log("formData", formData);
+  const getProfileData = () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    const header = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios
+      .get("https://api.escuelajs.co/api/v1/auth/profile", header)
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const navigate = useNavigate();
   const [activetab, setActivetab] = useState("personalinfo");
   const stepHandler = (item) => {
@@ -22,17 +42,61 @@ const Home = () => {
     navigate("/");
   };
 
+  const ResetFrom = () => {
+    let keys = ["PersonalInfo", "Skills", "Experience", "storedEducation"];
+    keys.forEach((key) => localStorage.removeItem(key));
+  };
+
+  useEffect(() => {
+    getProfileData();
+    formData.formSubmit();
+  }, []);
+
   return (
-    <div className="flex h-full min-h-screen overflow-auto">
-      <div className="basis-1/3 bg-black ">
-        <div className="p-10 sticky top-0 left-0">
+    <div className="flex h-full min-h-screen">
+      <div className=" basis-1/3 w-full bg-black ">
+        <div className="p-10 max-w-screen-md mx-auto">
           <div className="w-full flex justify-between border-b border-b-slate-300 mb-5 pb-3">
             <h1 className="text-white font-semibold text-2xl ">
               Resume Builder
             </h1>
-            <button onClick={logout} className="text-white text-sm">
-              Logout
-            </button>
+
+            <Menu>
+              <MenuButton className="inline-flex items-center gap-2 rounded-md text-white">
+                <div className="flex items-center gap-3">
+                  <img
+                    src={user.avatar}
+                    alt={user.name}
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+                  {user.email ? user.email : "loading...."}
+                </div>
+                <TfiAngleDown className="size-4 fill-white/60" />
+              </MenuButton>
+
+              <MenuItems
+                transition
+                anchor="bottom end"
+                className="w-52 origin-top-right rounded-md border transition duration-100 ease-out bg-gray-900 text-white py-3"
+              >
+                <MenuItem>
+                  <button
+                    onClick={ResetFrom}
+                    className="text-sm flex w-full items-center gap-2  py-2 px-5 data-[focus]:bg-white/10"
+                  >
+                    Reset From
+                  </button>
+                </MenuItem>
+                <MenuItem>
+                  <button
+                    onClick={logout}
+                    className="text-sm flex w-full items-center gap-2  py-2 px-5 data-[focus]:bg-white/10"
+                  >
+                    Logout
+                  </button>
+                </MenuItem>
+              </MenuItems>
+            </Menu>
           </div>
           <ul className="flex w-full py-5 mb-5">
             <li className="mr-3">
@@ -110,6 +174,7 @@ const Home = () => {
           )}
         </div>
       </div>
+
       <div className="basis-2/3">
         <Preview />
       </div>
